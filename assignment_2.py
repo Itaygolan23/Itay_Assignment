@@ -20,7 +20,14 @@ def main():
 
     # Linux Command
     parser.add_argument("-c", type=str, help="<Required> User Linux Command")
+    
     args = parser.parse_args()
+
+    # Chceking the format of the IP address
+    for ip in args.list:
+        if not ip.count('.') == 3:
+            print("Invalid IP address")
+            return
 
     IP_list = []
     # Create a thread for each IP address
@@ -28,6 +35,7 @@ def main():
         t = threading.Thread(target=run_command, args=(ip,args.c))
         IP_list.append(t)
         t.start()
+        
     # Wait for all the threads to finish
     for i in IP_list:
         i.join()
